@@ -1,5 +1,10 @@
 angular.module('starter.services', [])
 
+.factory('Contacts', function($firebaseArray) {
+  var itemsRef = new Firebase("https://khedawal.firebaseio.com/contact");
+  return $firebaseArray(itemsRef);
+})
+
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
 

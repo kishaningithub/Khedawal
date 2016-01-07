@@ -1,29 +1,21 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {})
-
-.controller('ChatsCtrl', function($scope, Chats, $cordovaContacts) {
-  $scope.getAllContacts = function() 
-  {
-    alert('getting' + JSON.stringify($cordovaContacts));
-    $cordovaContacts.find({filter: ''}).then(function(allContacts) 
-    {
-      alert('allContacts ' + JSON.stringify(allContacts));
-      $scope.chats = allContacts;
-    }, function(error) {
-      alert('e ' + error);
+.controller('DashCtrl', function($scope, Contacts) {
+  
+  $scope.contacts = Contacts;
+  
+  $scope.pickContact = function () {
+    $cordovaContacts.pickContact().then(function(contactPicked) {
+       if(contactPicked){
+        $scope.contacts.$add(contactPicked);  
+       }
     });
   };
   
-  $scope.$on('$ionicView.enter', function(e) {
-    $scope.getAllContacts();
-  });
+})
 
-  // $scope.chats = Chats.all();
+.controller('ChatsCtrl', function($scope, Chats, $cordovaContacts) {
   
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
